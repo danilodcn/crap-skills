@@ -1,6 +1,13 @@
+from decimal import ROUND_HALF_UP, Decimal
+
 from crapkit.score import CRAPPY_THRESHOLD, Entry, sort_entries
 
 HEADER = f"{'Function':<30} {'Module':<35} {'CC':>4} {'Cov%':>7} {'CRAP':>8}"
+ONE_DECIMAL = Decimal("0.1")
+
+
+def round_half_up(value: float) -> float:
+    return float(Decimal(str(value)).quantize(ONE_DECIMAL, rounding=ROUND_HALF_UP))
 
 
 def format_table(entries: list[Entry]) -> str:
@@ -15,11 +22,11 @@ def format_table(entries: list[Entry]) -> str:
 
 
 def _format_coverage(coverage: float | None) -> str:
-    return "N/A" if coverage is None else f"{coverage:.1f}%"
+    return "N/A" if coverage is None else f"{round_half_up(coverage):.1f}%"
 
 
 def _format_score(score: float | None) -> str:
-    return "N/A" if score is None else f"{score:.1f}"
+    return "N/A" if score is None else f"{round_half_up(score):.1f}"
 
 
 def build_document(
@@ -39,7 +46,7 @@ def build_document(
         "summary": {
             "functions": len(ordered),
             "crappy": sum(1 for score in scores if score >= CRAPPY_THRESHOLD),
-            "max_crap": round(max(scores), 1) if scores else None,
+            "max_crap": round_half_up(max(scores)) if scores else None,
         },
         "entries": [_serialize(entry) for entry in ordered],
     }
@@ -53,8 +60,8 @@ def _serialize(entry: Entry) -> dict:
         "start_line": entry.start_line,
         "end_line": entry.end_line,
         "complexity": entry.complexity,
-        "coverage": None if entry.coverage is None else round(entry.coverage, 1),
-        "crap": None if entry.crap is None else round(entry.crap, 1),
+        "coverage": None if entry.coverage is None else round_half_up(entry.coverage),
+        "crap": None if entry.crap is None else round_half_up(entry.crap),
         "statements": entry.statements,
         "covered_statements": entry.covered_statements,
     }

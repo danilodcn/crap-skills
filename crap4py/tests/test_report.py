@@ -62,6 +62,35 @@ def test_document_entries_are_sorted_worst_first():
     assert [entry["name"] for entry in document["entries"]] == ["bad", "good"]
 
 
+def test_table_rounds_crap_half_up_at_exact_boundary():
+    table = format_table([make_entry("boundary", 4, 75.0)])
+
+    assert "4.3" in table.splitlines()[4]
+
+
+def test_table_rounds_coverage_half_up_at_exact_boundary():
+    table = format_table([make_entry("boundary", 4, 6.25)])
+
+    assert "6.3%" in table.splitlines()[4]
+
+
+def test_document_serializes_crap_and_coverage_rounded_half_up():
+    document = build_document(
+        entries=[
+            make_entry("crap-boundary", 4, 75.0),
+            make_entry("coverage-boundary", 1, 6.25),
+        ],
+        language="python",
+        paths=[],
+        diff_base=None,
+        generated_at="2026-07-24T19:40:00Z",
+    )
+    entries_by_name = {entry["name"]: entry for entry in document["entries"]}
+
+    assert entries_by_name["crap-boundary"]["crap"] == 4.3
+    assert entries_by_name["coverage-boundary"]["coverage"] == 6.3
+
+
 def test_document_records_filters_and_version():
     document = build_document(
         entries=[],

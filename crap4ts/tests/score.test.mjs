@@ -56,3 +56,21 @@ test("sort breaks ties by name", () => {
 test("crappy threshold is thirty", () => {
   assert.equal(CRAPPY_THRESHOLD, 30);
 });
+
+test("sort breaks ties by code-point name order, not locale order", () => {
+  const entries = [
+    makeEntry("Order.process", 5, 0),
+    makeEntry("order.other", 5, 0),
+    makeEntry("_private", 5, 0),
+    makeEntry("abc", 5, 0),
+    makeEntry("ABC", 5, 0),
+  ];
+
+  assert.deepEqual(sortEntries(entries).map((entry) => entry.name), [
+    "ABC",
+    "Order.process",
+    "_private",
+    "abc",
+    "order.other",
+  ]);
+});

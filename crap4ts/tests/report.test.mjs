@@ -50,6 +50,23 @@ test("summary counts crappy entries", () => {
   assert.deepEqual(document.summary, { functions: 2, crappy: 1, max_crap: 156.0 });
 });
 
+test("table and document round CRAP half up at the exact boundary", () => {
+  const entry = makeEntry("boundary", 4, 75);
+  const line = formatTable([entry]).split("\n")[4];
+
+  assert.match(line, /4\.3/);
+
+  const document = buildDocument({
+    entries: [entry],
+    language: "typescript",
+    paths: [],
+    diffBase: null,
+    generatedAt: "2026-07-24T19:40:00Z",
+  });
+
+  assert.equal(document.entries[0].crap, 4.3);
+});
+
 test("entries are serialized in snake case and sorted", () => {
   const document = buildDocument({
     entries: [makeEntry("good", 1, 100), makeEntry("bad", 12, 0)],

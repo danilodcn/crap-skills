@@ -8,16 +8,22 @@ export function crapScore(complexity, coverage) {
   return complexity ** 2 * uncovered ** 3 + complexity;
 }
 
+function compareByCodePoint(left, right) {
+  if (left < right) return -1;
+  if (left > right) return 1;
+  return 0;
+}
+
 export function sortEntries(entries) {
   return [...entries].sort((left, right) => {
     const leftScore = crapScore(left.complexity, left.coverage);
     const rightScore = crapScore(right.complexity, right.coverage);
     if (leftScore === null && rightScore === null) {
-      return left.name.localeCompare(right.name);
+      return compareByCodePoint(left.name, right.name);
     }
     if (leftScore === null) return 1;
     if (rightScore === null) return -1;
     if (leftScore !== rightScore) return rightScore - leftScore;
-    return left.name.localeCompare(right.name);
+    return compareByCodePoint(left.name, right.name);
   });
 }
