@@ -49,6 +49,12 @@ Com uma invocação de teste diferente:
 python ~/.claude/skills/crap4py/scripts/crap_py.py --test-command "coverage run -m pytest tests/unit"
 ```
 
+Gravando apenas o JSON, sem imprimir a tabela:
+
+```bash
+python ~/.claude/skills/crap4py/scripts/crap_py.py --json-only
+```
+
 ## O que ele faz
 
 1. Apaga `target/crap/` e roda `coverage run -m pytest`
