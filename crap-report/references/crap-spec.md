@@ -25,7 +25,7 @@ Casos de referência, conferidos contra a fórmula:
 | 5  | ausente  | null  |
 
 A tabela do README do crap4go mostra `CC 12, 45%, 130.2`, que não satisfaz a própria
-fórmula. Não usar como referência.
+fórmula. Não usar como referência nem para calibrar testes.
 
 ## Faixas
 
@@ -40,7 +40,7 @@ fórmula. Não usar como referência.
 ## Cobertura ausente
 
 - Arquivo fora do relatório de cobertura → `coverage: null`, `crap: null`, exibido `N/A`
-- Arquivo presente, função sem statements cobertos → `coverage: 0.0`
+- Arquivo presente no relatório, mas a função não tem statements medidos no seu range → `coverage: 0.0`
 
 "Não medido" não é "não testado".
 
@@ -87,13 +87,20 @@ Gravado em `target/crap/report.json`.
 ```text
 CRAP Report
 ===========
-Function                       Module                                CC   Cov%     CRAP
+Function                       Module                                CC    Cov%     CRAP
 ----------------------------------------------------------------------------------------
-Order.process                  src.billing.order                     12  45.0%     36.0
-parse_config                   src.config                             3 100.0%      3.0
+Order.process                  src.billing.order                     12   45.0%     36.0
+parse_config                   src.config                             3  100.0%      3.0
+legacy_helper                  src.legacy                             7     N/A      N/A
 ```
 
-Larguras: nome 30, módulo 35, CC 4, cobertura 7, CRAP 8. Cobertura ausente imprime `N/A`.
+Formato de cada linha, com um espaço entre todas as colunas, totalizando 88 caracteres:
+
+```text
+{name:<30} {module:<35} {complexity:>4} {coverage:>7} {crap:>8}
+```
+
+Cobertura e CRAP ausentes imprimem `N/A` no lugar do número.
 
 ## Modo revisão
 
