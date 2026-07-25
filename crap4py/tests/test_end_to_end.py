@@ -18,7 +18,7 @@ def test_report_ranks_the_untested_complex_function_first(tmp_path):
         cwd=project,
         capture_output=True,
         text=True,
-        env={**os.environ, "PYTHONPATH": str(SCRIPT.parent)},
+        env={**os.environ, "PYTHONPATH": str(SCRIPT.parent), "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ.get('PATH', '')}"},
     )
 
     assert result.returncode == 0, result.stderr
