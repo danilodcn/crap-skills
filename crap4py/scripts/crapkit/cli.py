@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-HELP_MESSAGE = """Usage: crap_py.py [path-filter ...] [options]
+HELP_MESSAGE = """Usage: crap4py [path-filter ...] [options]
 
 Runs the test suite with coverage, computes CRAP scores and prints a report
 sorted worst first.

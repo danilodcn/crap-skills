@@ -1,4 +1,4 @@
-export const HELP_MESSAGE = `Usage: crap_ts.mjs [path-filter ...] [options]
+export const HELP_MESSAGE = `Usage: crap4ts [path-filter ...] [options]
 
 Runs the test suite with istanbul coverage, computes CRAP scores and prints a
 report sorted worst first.
