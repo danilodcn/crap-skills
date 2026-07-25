@@ -58,3 +58,8 @@ def test_backslashes_are_normalized():
 def test_missing_functions_key_is_rejected():
     with pytest.raises(CoverageFormatError):
         parse_coverage_report({"files": {"sample.py": {}}})
+
+
+def test_missing_files_key_is_rejected():
+    with pytest.raises(CoverageFormatError):
+        parse_coverage_report({})

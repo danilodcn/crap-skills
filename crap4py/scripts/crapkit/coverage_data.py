@@ -19,6 +19,10 @@ def normalize_path(path: str) -> str:
 
 
 def parse_coverage_report(payload: dict) -> dict[str, dict[int, FunctionCoverage]]:
+    if "files" not in payload:
+        raise CoverageFormatError(
+            "coverage report must contain a 'files' section"
+        )
     report: dict[str, dict[int, FunctionCoverage]] = {}
     for path, data in payload.get("files", {}).items():
         if "functions" not in data:
