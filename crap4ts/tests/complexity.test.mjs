@@ -100,3 +100,55 @@ function spans() {
   assert.equal(spans.startLine, 2);
   assert.equal(spans.endLine, 4);
 });
+
+test("single file component functions keep their line numbers in the .vue file", () => {
+  const source = `<template>
+  <p @click="bump">{{ label }}</p>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{ score: number }>();
+
+function grade(n: number) {
+  if (n > 90) return "A";
+  if (n > 80) return "B";
+  return "F";
+}
+</script>
+`;
+  const grade = find(extractFunctions("src/Widget.vue", source), "grade");
+
+  assert.equal(grade.startLine, 8);
+  assert.equal(grade.endLine, 12);
+  assert.equal(grade.complexity, 3);
+});
+
+test("markup never leaks into the parsed script of a component", () => {
+  const source = `<template>
+  <p>Use the \` character to quote code</p>
+</template>
+
+<script setup lang="ts">
+function classify(n: number) {
+  if (n > 10) return "big";
+  return "small";
+}
+</script>
+`;
+  const functions = extractFunctions("src/Backtick.vue", source);
+
+  assert.equal(functions.length, 1);
+  assert.equal(find(functions, "classify").complexity, 2);
+});
+
+test("an untyped component script parses as javascript", () => {
+  const source = `<script setup>
+function half(n) {
+  return n > 0 ? n / 2 : 0;
+}
+</script>
+`;
+  const half = find(extractFunctions("src/Plain.vue", source), "half");
+
+  assert.equal(half.complexity, 2);
+});

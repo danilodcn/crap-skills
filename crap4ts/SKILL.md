@@ -56,8 +56,8 @@ node ~/.claude/skills/crap4ts/scripts/crap_ts.mjs --json-only
 
 1. Apaga `target/crap/` e roda vitest ou jest com cobertura istanbul
 2. Lê `coverage/coverage-final.json`
-3. Extrai complexidade via TypeScript Compiler API, ignorando `node_modules`, `dist`,
-   `*.test.ts`, `*.spec.ts`, `*.d.ts`
+3. Extrai complexidade via TypeScript Compiler API de `.ts`, `.tsx`, `.mts`, `.cts` e
+   `.vue`, ignorando `node_modules`, `dist`, `*.test.ts`, `*.spec.ts`, `*.d.ts`
 4. Casa cobertura por range de linhas, descontando statements de funções aninhadas
 5. Aplica a fórmula, ordena pior primeiro, imprime a tabela e grava
    `target/crap/report.json`
@@ -81,6 +81,16 @@ parseConfig                    src/config                             3  100.0% 
 
 `N/A` significa que o arquivo não apareceu no relatório de cobertura — não medido, que é
 diferente de não testado.
+
+## Componentes Vue
+
+Arquivos `.vue` são medidos. Apenas os blocos `<script>` e `<script setup>` são
+analisados: `<template>` e `<style>` são apagados preservando os offsets, então as linhas
+reportadas são as do `.vue` original — a mesma coordenada em que o istanbul reporta o SFC.
+O dialeto do parser vem do atributo `lang` do bloco (`ts`, `tsx`, `jsx`, ou JS por padrão).
+
+Os statements do template compilado ficam fora do range de qualquer função e por isso não
+entram na cobertura de nenhuma entrada.
 
 ## Funções aninhadas
 

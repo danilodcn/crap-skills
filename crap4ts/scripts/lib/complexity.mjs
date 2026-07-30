@@ -3,6 +3,8 @@ import path from "node:path";
 
 import defaultTypeScript from "typescript";
 
+import { isSingleFileComponent, scriptOf } from "./sfc.mjs";
+
 let ts = defaultTypeScript;
 
 export function loadTypeScript(projectRoot) {
@@ -103,12 +105,22 @@ function qualifiedName(node, sourceFile, startLine) {
   return owner && isMember ? `${owner}.${base}` : base;
 }
 
+const scriptKindOf = (lang) =>
+  ({
+    ts: ts.ScriptKind.TS,
+    tsx: ts.ScriptKind.TSX,
+    js: ts.ScriptKind.JS,
+    jsx: ts.ScriptKind.JSX,
+  })[lang] ?? ts.ScriptKind.TS;
+
 export function extractFunctions(fileName, sourceText) {
+  const component = isSingleFileComponent(fileName) ? scriptOf(sourceText) : null;
   const sourceFile = ts.createSourceFile(
     fileName,
-    sourceText,
+    component === null ? sourceText : component.text,
     ts.ScriptTarget.Latest,
     true,
+    component === null ? undefined : scriptKindOf(component.lang),
   );
   const lineOf = (position) =>
     sourceFile.getLineAndCharacterOfPosition(position).line + 1;

@@ -10,5 +10,18 @@
       "5": { "start": { "line": 14 }, "end": { "line": 14 } }
     },
     "s": { "0": 0, "1": 0, "2": 0, "3": 0, "4": 0, "5": 3 }
+  },
+  "PROJECT_ROOT/src/Grade.vue": {
+    "path": "PROJECT_ROOT/src/Grade.vue",
+    "statementMap": {
+      "0": { "start": { "line": 2 }, "end": { "line": 2 } },
+      "1": { "start": { "line": 8 }, "end": { "line": 8 } },
+      "2": { "start": { "line": 11 }, "end": { "line": 11 } },
+      "3": { "start": { "line": 12 }, "end": { "line": 12 } },
+      "4": { "start": { "line": 13 }, "end": { "line": 13 } },
+      "5": { "start": { "line": 14 }, "end": { "line": 14 } },
+      "6": { "start": { "line": 18 }, "end": { "line": 18 } }
+    },
+    "s": { "0": 2, "1": 2, "2": 0, "3": 0, "4": 0, "5": 0, "6": 1 }
   }
 }

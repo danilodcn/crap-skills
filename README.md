@@ -145,6 +145,11 @@ A complexidade é extraída com a TypeScript Compiler API, não com a regra `com
 ESLint — essa reporta o range do *nome* da função, não do corpo, e sem a linha final não
 há como casar a cobertura.
 
+Componentes Vue (`.vue`) entram na medição. Só os blocos `<script>` são analisados; o
+`<template>` e o `<style>` são apagados preservando os offsets, então as linhas continuam
+sendo as do arquivo `.vue` original — que é a coordenada em que o istanbul reporta o SFC.
+O dialeto vem do atributo `lang` do bloco.
+
 ## Saída
 
 Além da tabela, cada execução grava `target/crap/report.json`:

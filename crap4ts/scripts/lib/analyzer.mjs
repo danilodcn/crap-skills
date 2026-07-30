@@ -1,6 +1,7 @@
 import { coverageForRange } from "./coverage.mjs";
 
-export const moduleName = (filePath) => filePath.replace(/\.[cm]?[jt]sx?$/, "");
+export const moduleName = (filePath) =>
+  filePath.replace(/\.(?:vue|[cm]?[jt]sx?)$/, "");
 
 const nestedRanges = (target, functions) =>
   functions

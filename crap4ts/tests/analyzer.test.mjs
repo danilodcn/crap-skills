@@ -18,6 +18,10 @@ test("module name drops the extension", () => {
   assert.equal(moduleName("src/billing/order.ts"), "src/billing/order");
 });
 
+test("module name drops the .vue extension", () => {
+  assert.equal(moduleName("src/billing/Invoice.vue"), "src/billing/Invoice");
+});
+
 test("parent coverage excludes statements of nested functions", () => {
   const entries = buildEntries(functions, new Map([["src/orders.ts", statements]]));
   const outer = entries.find((entry) => entry.name === "outer");

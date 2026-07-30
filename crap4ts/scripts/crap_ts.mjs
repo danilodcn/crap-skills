@@ -14,7 +14,8 @@ import { buildDocument, formatTable } from "./lib/report.mjs";
 const OUTPUT_DIR = "target/crap";
 const REPORT_JSON = path.join(OUTPUT_DIR, "report.json");
 const COVERAGE_JSON = "coverage/coverage-final.json";
-const SOURCE_PATTERN = /\.(ts|tsx|mts|cts)$/;
+const SOURCE_PATTERN = /\.(ts|tsx|mts|cts|vue)$/;
+const SOURCE_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts", ".vue"];
 const EXCLUDED = new Set(["node_modules", "dist", "build", "target", ".git", "coverage"]);
 const TEST_PATTERN = /\.(test|spec)\.[cm]?tsx?$|\.d\.ts$/;
 
@@ -100,7 +101,7 @@ function main(argv) {
   );
   let entries = buildEntries(functions, coverage);
   if (options.diffBase !== null) {
-    const ranges = changedRanges(options.diffBase, [".ts", ".tsx", ".mts", ".cts"]);
+    const ranges = changedRanges(options.diffBase, SOURCE_EXTENSIONS);
     entries = entries.filter((entry) =>
       touches(ranges.get(entry.file) ?? [], entry.startLine, entry.endLine),
     );
